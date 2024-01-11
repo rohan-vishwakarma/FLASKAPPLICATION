@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, url_for
 from flask_restful import Api as RestApi
 from myapp.Api.views import Customers
 
@@ -18,6 +18,7 @@ migrate = Migrate()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.config['BUNDLE_ERRORS'] = True
 
 
     with app.app_context():
@@ -45,7 +46,15 @@ def create_app(config_class=Config):
             return render_template('index.html')
         
 
+        @app.route('/Internal-server-error')
+        def Internal_server_error():
+            return render_template('error/sqlerror.html')
+        
+
         with app.app_context():
-            db.create_all()
+            try:
+                db.create_all()
+            except Exception as e:
+                print(e)
     
     return app
