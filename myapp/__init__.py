@@ -15,8 +15,14 @@ from flask_login import LoginManager, logout_user
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask import Flask, session
+from flask_login import login_user, login_required, current_user
 
 
+def profile():  
+    if current_user.is_authenticated:
+        return f'Hello, {current_user.username} '
+    else:
+        return None
 
 
 db = SQLAlchemy()
@@ -57,7 +63,6 @@ def create_app(config_class=Config):
         from myapp.Api.models import User
         from myapp.Api.forms import LoginForm
         from myapp.Api.forms import SignUpForm
-        from flask_login import login_user, login_required
 
     
         app.register_blueprint(main_bp)
@@ -73,6 +78,7 @@ def create_app(config_class=Config):
         def get():
             return session.get('username')
 
+
         
         @app.route('/', methods=['GET', 'POST'])
         def test_page():
@@ -81,19 +87,17 @@ def create_app(config_class=Config):
             if request.method == "POST" and login_form.validate_on_submit():
                 entered_password = request.form['password']
                 user = User.query.filter_by(username=request.form['username']).first()
-                login_user(user)
                 if user:
                     password = user.password
                     id = user.id
                     check = bcrypt.check_password_hash(password, entered_password)
                     if check:
+                        login_user(user)
                         error['message'] = f"Login Successfulll"
-                                                
                         # session['username'] = request.form['username']
-                        
                     else:
                         error['message2'] = f"Invalid Password"
-            return render_template('index.html',form=login_form , error=error)
+            return render_template('index.html',form=login_form , error=error, profile=profile())
     
             
         

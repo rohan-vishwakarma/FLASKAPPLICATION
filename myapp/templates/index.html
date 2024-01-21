@@ -58,7 +58,11 @@
     </div>
 
     <br>
-  
+
+    {% if profile %}
+
+    {% else %}
+
     <h4 style="text-align: center;">Please Login</h4>
 
     {% if form.username.errors %}
@@ -119,6 +123,11 @@
         <button class="btn btn-primary" type="submit">Login</button> or <a href="{{ url_for('signup') }}">SIGNUP</a>
       </div>
     </form>
+
+    
+    {% endif %}
+
+  
   </div>
   </body>
 </html>
