@@ -77,16 +77,6 @@ def create_app(config_class=Config):
         @app.route('/get')
         def get():
             return session.get('username')
-        
-        @app.errorhandler(404)
-        def page_not_found(e):
-            # note that we set the 404 status explicitly
-            return render_template('error/404.html'), 404
-        
-        @app.errorhandler(500)
-        def internal_server_error(e):
-            # note that we set the 500 status explicitly
-            return render_template('500.html'), 500
 
 
         

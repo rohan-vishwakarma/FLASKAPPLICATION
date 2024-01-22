@@ -8,7 +8,7 @@ from . import Mlbp
 
 def profile():  
     if current_user.is_authenticated:
-        return f'Hello, {current_user.username}!'
+        return f'Hello, {current_user.username}'
     else:
         return None
 

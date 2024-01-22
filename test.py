@@ -1,31 +1,64 @@
-import numpy as numpy
-import matplotlib.pyplot as mtp  
-import pandas as pd
-from sklearn.model_selection import train_test_split  
-from sklearn.linear_model import LinearRegression  
-regressor= LinearRegression()  
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+
+class DoubleLinkedList:
+
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.length = 0
+    def append(self, data):
+        newnode = Node(data)
+        if self.head == None:
+            self.head = newnode
+            self.tail = newnode
+            newnode.next = None
+            newnode.prev = None
+        else:
+            temp = self.tail
+            self.tail.next = newnode
+            newnode.prev = temp
+            newnode.next = None
+            self.tail = newnode
+        self.length +=1
 
 
-dataset = pd.read_csv('salary.csv')
-x = dataset.iloc[:, :-1].values   # x is a independent variable
-y= dataset.iloc[:, 1].values     # y is a dependent variabe
+
+    def __str__(self):
+        temp = self.head
+        string = ""
+        while temp is not None:
+            string += str(temp.data)
+            if temp.next is not None:
+                string+=str("->")
+                string+=str("<-")
+            temp = temp.next
+        return string
 
 
-x_train, x_test, y_train, y_test= train_test_split(x, y, test_size= 1/3, random_state=0)  
 
-regressor.fit(x_train, y_train)  
+# DDL = DoubleLinkedList()
+# DDL.append(12)
+# DDL.append(13)
+# DDL.append(14)
+# print(DDL)
 
 
-y_pred= regressor.predict(x_test)  
-x_pred= regressor.predict(x_train)  
+
+list = [1,2,4,5,7,8,0,3,6,7]
 
 
-y_pred= regressor.predict(x_test)  
-x_pred= regressor.predict(x_train)  
+def findpair(arr, target):
 
-mtp.scatter(x_train, y_train, color="green")   
-mtp.plot(x_train, x_pred, color="red")    
-mtp.title("Salary vs Experience (Training Dataset)")  
-mtp.xlabel("Years of Experience")  
-mtp.ylabel("Salary(In Rupees)")  
-mtp.show()   
+    for i in range(len(arr)):
+        for j in range(len(arr)):
+            if arr[i] < arr[j]:
+
+                if arr[i] + arr[j] ==  target:
+                    print(arr[i], arr[j])
+
+p = findpair(list, 7)
+print(p)
