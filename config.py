@@ -12,3 +12,9 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     BCRYPT_LOG_ROUNDS = 13
     WTF_CSRF_ENABLED = True
+
+
+    CELERY = 'redis://localhost:6379/0'
+    # CELERY_RESULT_BACKEND = 'redis://localhost'
+    # CELERY_TASK_IGNORE_RESULT = True
+    # CELERY_REDIS_PORT = 6380

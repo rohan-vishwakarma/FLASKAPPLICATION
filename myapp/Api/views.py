@@ -44,7 +44,11 @@ customers ={}
 class Customers(Resource):
 
     def get(self):
-        return {'hello': 'world'}
+        from .models import User
+        user = User.query.all()
+        user_list =[{'id': users.id, 'username': users.username, 'email': users.email, 'created_at': users.created_at }  for users in user]
+        
+        return jsonify({'users': user_list})
 
     def post(self):
 
@@ -75,6 +79,8 @@ class Customers(Resource):
         
         except exc.SQLAlchemyError as e2:
             return jsonify({'messsage2' : e2}), 500
+        except Exception as e:
+            print(e)
     
         
 

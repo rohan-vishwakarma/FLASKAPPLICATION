@@ -3,6 +3,7 @@ import sys
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_restful import Api as RestApi
 from myapp.Api.views import Customers
+from celery import Celery, Task
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 print(basedir)
@@ -30,6 +31,7 @@ migrate = Migrate()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 sess = Session()
+celery = Celery("celery",broker='redis://localhost:6380/0', backend='redis://localhost:6380/0')
 
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder='static')
@@ -39,6 +41,11 @@ def create_app(config_class=Config):
     app.config["SESSION_TYPE"] = "filesystem"   
     bcrypt.init_app(app)
     sess.init_app(app)
+    app.config['CELERY_BROKER_URL'] = 'redis://localhost:6380/0'
+    app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6380/0'
+
+
+    celery.conf.update(app.config)
 
     login_manager.init_app(app)
     login_manager.login_view = 'test_page'
@@ -63,10 +70,12 @@ def create_app(config_class=Config):
         from myapp.Api.models import User
         from myapp.Api.forms import LoginForm
         from myapp.Api.forms import SignUpForm
+        from myapp.redis_app import celery_bp
 
     
         app.register_blueprint(main_bp)
         app.register_blueprint(Mlbp)
+        app.register_blueprint(celery_bp)
 
 
         @login_manager.user_loader
@@ -151,3 +160,19 @@ def create_app(config_class=Config):
                 print(e)
     
     return app
+
+try:
+    def celery_init_app(app: Flask) -> Celery:
+        class FlaskTask(Task):
+            def __call__(self, *args: object, **kwargs: object) -> object:
+                with app.app_context():
+                    return self.run(*args, **kwargs)
+
+        celery_app = Celery(app.name, task_cls=FlaskTask)
+        celery_app.config_from_object(app.config)
+        celery_app.set_default()
+        app.extensions["celery"] = celery_app
+        return celery_app
+
+except Exception as e:
+    print(e)

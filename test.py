@@ -48,17 +48,19 @@ class DoubleLinkedList:
 
 
 
-list = [1,2,4,5,7,8,0,3,6,7]
+# list = [1,2,4,5,7,8,0,3,6,7]
 
 
-def findpair(arr, target):
+# def findpair(arr, target):
 
-    for i in range(len(arr)):
-        for j in range(len(arr)):
-            if arr[i] < arr[j]:
+#     for i in range(len(arr)):
+#         for j in range(len(arr)):
+#             if arr[i] < arr[j]:
 
-                if arr[i] + arr[j] ==  target:
-                    print(arr[i], arr[j])
+#                 if arr[i] + arr[j] ==  target:
+#                     print(arr[i], arr[j])
 
-p = findpair(list, 7)
-print(p)
+# p = findpair(list, 7)
+# print(p)
+
+
