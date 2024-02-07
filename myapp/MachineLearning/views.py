@@ -31,7 +31,7 @@ class LinearRegression(View):
             return "hello"
 
         if request.method == "GET":
-            return render_template('Ml/index.html', profile=profile())
+            return render_template('ML/index.html', profile=profile())
 
 
 

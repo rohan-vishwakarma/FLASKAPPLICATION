@@ -7,7 +7,7 @@ class Config:
     # SECRET_KEY = os.environ.get('SECRET_KEY')
     DEBUG = True
     SECRET_KEY = "b'x/~\xe2\xdd\n\xe4\x12\x03R\xc2\xe6'"
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:Friend14@localhost/flask'
+    SQLALCHEMY_DATABASE_URI = 'mysql://debian-sys-maint:JeJcLX3ZuDFohe2D@localhost/flask'
     CSRF_ENABLED = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     BCRYPT_LOG_ROUNDS = 13
