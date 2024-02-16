@@ -17,7 +17,7 @@
 <body>
   {% include "components/navbar.html" %}
 
-  <div class="container mt-4">
+  <div class="container-fluid mt-4">
     <div class="card-deck">
       <div class="card">
         <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
@@ -38,13 +38,29 @@
     </div>
 
 
+    <style>
+      .image-container {
+    width: 100%; /* Adjust as needed */
+    height: 100%; /* Adjust as needed */
+    overflow: hidden; /* Ensure images don't overflow */
+}
+
+.image-container img {
+    width: 100%; /* Fill the container horizontally */
+    height: 100%; /* Fill the container vertically */
+    object-fit: cover; /* Maintain aspect ratio; cover the container */
+}
+
+    </style>
+
+
     <div class="container-fluid mt-4">
         <h5 style="text-align: center; color: blue"><b>LIST OF IMAGES</b></h5>
-        <div class="card-group">
+        <div class="card-group ">
 
             {% for image in images %}
-            <div class="col-sm-3">
-                <div class="card">
+            <div class="col-sm-2">
+                <div class="card image-container">
                     <img class="card-img-top" src="data:image/jpeg;base64,{{ image.image|b64encode }}" alt="{{ image.imagename }}" alt="Card image cap">
                     <div class="card-body">
                       <h4 class="card-title">{{ image.imagename }}</h4>

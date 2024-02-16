@@ -65,12 +65,16 @@ class ImageForm(View):
 
         form = ImageStorageForm()
         if request.method == "POST":
-            imagename = form.imagename.data
-            image_file = form.image.data
-            new_image = Images(imagename=imagename, image=image_file.read())
-            db.session.add(new_image)
-            db.session.commit()
-            return redirect('/images/list')
+            try:
+                imagename = form.imagename.data
+                image_file = form.image.data
+                new_image = Images(imagename=imagename, image=image_file.read())
+                db.session.add(new_image)
+                db.session.commit()
+            except Exception as e:
+                print(str(e))
+            finally:
+                return redirect('/images/list')
 
         if request.method == "GET":
             form = ImageStorageForm()

@@ -36,10 +36,11 @@
 
 
 
-    <div class="container">
+    <div class="container m-auto w-50" style="margin-top: 5% !important">
 
 
       <form method="POST" enctype="multipart/form-data">
+        <p class="text-center" style="font-size: 20px; background: aliceblue">Upload Image</p>
         <div class="mb-3">
           {{ form.csrf_token }}
           <label for="exampleFormControlInput1" class="form-label">{{ form.imagename.label }}</label>
