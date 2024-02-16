@@ -37,5 +37,15 @@ class User(db.Model, UserMixin):
 
 
 
+class Images(db.Model):
+
+    # __table__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    imagename = db.Column(db.String(100))
+    image = db.Column(db.LargeBinary)
+    created_at  = db.Column(DateTime(timezone=True), server_default=func.now())
+
+    def __repr__(self):
+        return '<User %r>' % self.imagename
 
 

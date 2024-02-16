@@ -4,6 +4,7 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_restful import Api as RestApi
 from myapp.Api.views import Customers
 from celery import Celery, Task
+import base64
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 print(basedir)
@@ -24,6 +25,10 @@ def profile():
         return f'Hello, {current_user.username} '
     else:
         return None
+    
+def b64encode(data):
+    return base64.b64encode(data).decode('utf-8')
+
 
 
 db = SQLAlchemy()
@@ -44,6 +49,8 @@ def create_app(config_class=Config):
     app.config['CELERY_BROKER_URL'] = 'redis://localhost:6380/0'
     app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6380/0'
 
+    app.jinja_env.filters['b64encode'] = b64encode
+ 
 
     celery.conf.update(app.config)
 
@@ -72,10 +79,13 @@ def create_app(config_class=Config):
         from myapp.Api.forms import SignUpForm
         from myapp.redis_app import celery_bp
 
+        from myapp.Web import Webappbp
+
     
         app.register_blueprint(main_bp)
         app.register_blueprint(Mlbp)
         app.register_blueprint(celery_bp)
+        app.register_blueprint(Webappbp)
 
 
         @login_manager.user_loader

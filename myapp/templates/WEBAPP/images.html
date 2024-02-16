@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INDEX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/CSS/index.css">
+
+</head>
+
+<body>
+  {% include "components/navbar.html" %}
+
+  <div class="container mt-4">
+    <div class="card-deck">
+      <div class="card">
+        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+        <div class="card-body">
+          <a href="images/list">
+            <h5 class="card-title">LIST OF IMAGES </h5>
+          </a>
+          
+          <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+        </div>
+      
+      </div>
+
+
+    </div>
+
+
+
+    <div class="container">
+
+
+      <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          {{ form.csrf_token }}
+          <label for="exampleFormControlInput1" class="form-label">{{ form.imagename.label }}</label>
+          {{ form.imagename(size=20) }}
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">{{ form.image.label }}</label>
+          {{ form.image(size=20) }}
+        </div>
+
+        <div class="mb-3 m-auto w-50">
+          <button class="btn btn-primary" type="submit">UPLOAD IMAGE</button> 
+
+        </div>  
+      </form>
+
+    </div>
+
+
+</body>
+
+</html>

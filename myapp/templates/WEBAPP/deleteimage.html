@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Image</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/CSS/index.css">
+
+</head>
+
+<body>
+  {% include "components/navbar.html" %}
+
+  <div class="container mt-4">
+    <div class="card-deck">
+      <div class="card">
+        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+        <div class="card-body">
+    
+          
+          <a href="/images/list">
+            <h5 class="images">LIST OF IMAGES</h5>
+          </a>
+          <a href="/images">
+            <h5 class="images">ADD NEW IMAGE</h5>
+          </a>
+          
+          <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+        </div>
+      
+      </div>
+
+
+    </div>
+    </div>
+
+
+<form action="" method="post">
+    <div class="container-fluid mt-4">
+        <h5 style="text-align: center; color: blue"><b>Are you sure you want to delete the below image?</b></h5>
+        <div class="card-group">
+            <div class="col-sm-3">
+
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <img class="card-img-top" src="data:image/jpeg;base64,{{ data.image|b64encode }}" alt="{{ data.imagename }}" alt="Card image cap">
+                    <div class="card-body">
+                      <h4 class="card-title">{{ data.imagename }}</h4>
+                    </div>
+                    <button type="submit" class="btn btn-dander">YES DELETE</button>
+                </div>
+            </div>
+            <div class="col-sm-3">
+
+            </div>           
+        </div>
+    </div>
+</form>
+
+
+
+</body>
+
+</html>
