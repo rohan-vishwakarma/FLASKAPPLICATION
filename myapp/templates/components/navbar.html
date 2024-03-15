@@ -19,8 +19,8 @@
         <a class="nav-link disabled" href="#"></a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search">
+    <form class="form-inline my-2 my-lg-0" method="get">
+      <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search">
       <i class="fa-regular fa-user">
         
 
@@ -28,7 +28,7 @@
       {% if profile is not none %}
           {{profile}}
 
-          <div class="logout" style="">
+          <div class="logout" >
             <a href="/logout" style="color: white;">LOGOUT</a>
           </div>
         {% endif %}

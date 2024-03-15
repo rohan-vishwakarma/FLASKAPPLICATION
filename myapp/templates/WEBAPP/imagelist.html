@@ -17,26 +17,6 @@
 <body>
   {% include "components/navbar.html" %}
 
-  <div class="container-fluid mt-4">
-    <div class="card-deck">
-      <div class="card">
-        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-        <div class="card-body">
-    
-          
-          <a href="/images">
-            <h5 class="images">ADD NEW IMAGE</h5>
-          </a>
-          
-          <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-        </div>
-      
-      </div>
-
-
-    </div>
-    </div>
-
 
     <style>
       .image-container {
@@ -55,7 +35,7 @@
 
 
     <div class="container-fluid mt-4">
-        <h5 style="text-align: center; color: blue"><b>LIST OF IMAGES</b></h5>
+        <a href="/images"><h5 style="text-align: center; color: rgb(255, 213, 0)">CLICK HERE ADD NEW IMAGE</h5></a>
         <div class="card-group ">
 
             {% for image in images %}
@@ -67,11 +47,41 @@
                       <p><a href="{{ url_for('webapp.image_edit', image_id=image.id) }}"" style="color: red;">Delete</a></p>
                     </div>
                   </div>
-
             </div>
-
             {% endfor %}
+          </div>
+          <!-- the below is for the search images  -->
+
+          <h4 class="text-center mt-4">Searched results</h4>
+          <div class="card-group ">
+            {% for photo in dictionary_response["photos"] %}
+
+            <div class="col-sm-2">
+                <div class="card image-container">
+                    <img class="card-img-top" src="{{ photo['src']['tiny'] }}" alt="{{ photo['alt'] }}" alt="Card image cap">
+                    <div class="card-body">
+                      <p class="card-title">{{photo["alt"]}}</p>
+                    </div>
+                  </div>
+            </div>
+          {% endfor %}
             
+          </div>
+
+          <div class="row">
+            <nav aria-label="Page navigation example" class="m-auto">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="">1</a></li>
+                <li class="page-item"><a class="page-link" href="">2</a></li>
+                <li class="page-item"><a class="page-link" href="">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
           </div>
     </div>
 

@@ -10,6 +10,7 @@ from myapp.Api.models import Images
 
 from myapp import db
 
+import requests
 
 
 def profile():  
@@ -31,9 +32,26 @@ import base64
 @Webappbp.route('/images/list', methods=['GET'])
 def list_of_images():
     # Fetch all images from the database
+    dictionary_response = {}
     images = Images.query.all()
 
-    return render_template('WEBAPP/imagelist.html', images=images   )
+    
+
+    search_query = request.args.get('search')
+    if search_query:
+        header = {'Authorization' : '08jrFeIXXDeJpBdYAgF8GcDuKm7sDTLc7rScWCWI56ArcoeR4Zl37xdw'}
+        res = requests.get(f'https://api.pexels.com/v1/search?query={search_query}', headers=header)
+        if res.status_code == 200:
+            dictionary_response = dict(res.json())
+        else:
+            dictionary_response = res.status_code
+            print(f"Unsupported : status code {res.status_code}")
+
+            for i in dictionary_response["photos"]:
+                print(i["src"]["tiny"])
+        print(dictionary_response)
+
+    return render_template('WEBAPP/imagelist.html', images=images , profile=profile(), dictionary_response = dictionary_response  )
 
 
 

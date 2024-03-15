@@ -90,7 +90,7 @@ def create_app(config_class=Config):
 
         @login_manager.user_loader
         def load_user(user_id):
-            print(user_id)
+            # print(user_id)
             return User.query.filter_by(email=user_id).first()
         
         @app.route('/get')
