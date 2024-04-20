@@ -3,6 +3,7 @@ import sys
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_restful import Api as RestApi
 from myapp.Api.views import Customers
+from myapp.Api.addemail import AddEmail
 from celery import Celery, Task
 import base64
 
@@ -16,9 +17,9 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, logout_user
 from flask_bcrypt import Bcrypt
 from flask_session import Session
-from flask import Flask, session
+from flask import Flask, session, make_response
 from flask_login import login_user, login_required, current_user
-
+import json
 
 def profile():  
     if current_user.is_authenticated:
@@ -36,7 +37,7 @@ migrate = Migrate()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 sess = Session()
-celery = Celery("celery",broker='redis://localhost:6380/0', backend='redis://localhost:6380/0')
+celery = Celery("celery",broker='pyamqp://guest:guest@localhost//', backend='redis://localhost:6370/0')
 
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder='static')
@@ -46,28 +47,22 @@ def create_app(config_class=Config):
     app.config["SESSION_TYPE"] = "filesystem"   
     bcrypt.init_app(app)
     sess.init_app(app)
-    app.config['CELERY_BROKER_URL'] = 'redis://localhost:6380/0'
-    app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6380/0'
-
+    app.config['CELERY_BROKER_URL'] = 'amqp://localhost'
+    app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
     app.jinja_env.filters['b64encode'] = b64encode
- 
-
     celery.conf.update(app.config)
-
     login_manager.init_app(app)
     login_manager.login_view = 'test_page'
     login_manager.login_message = "User needs to be logged in to view this page"
     login_manager.login_message_category = "warning"
-
-
     with app.app_context():
-
-
         db.init_app(app)
         migrate.init_app(app, db)
     
         api = RestApi(app)
-        api.add_resource(Customers, '/Api')
+        api.add_resource(Customers, '/Api/Users')
+        api.add_resource(AddEmail, '/Api/AddEmail')
+
         
         # Initialize Flask extensions here
     
@@ -78,6 +73,7 @@ def create_app(config_class=Config):
         from myapp.Api.forms import LoginForm
         from myapp.Api.forms import SignUpForm
         from myapp.redis_app import celery_bp
+        from myapp.EmailScheduling import EmailSchedulingBp
 
         from myapp.Web import Webappbp
 
@@ -86,6 +82,13 @@ def create_app(config_class=Config):
         app.register_blueprint(Mlbp)
         app.register_blueprint(celery_bp)
         app.register_blueprint(Webappbp)
+        app.register_blueprint(EmailSchedulingBp)
+
+        @api.representation('application/json')
+        def output_json(data, code, headers=None):
+            resp = make_response(json.dumps(data), code)
+            resp.headers.extend(headers or {})
+            return resp
 
 
         @login_manager.user_loader
@@ -107,8 +110,6 @@ def create_app(config_class=Config):
             # note that we set the 500 status explicitly
             return render_template('500.html'), 500
 
-
-        
         @app.route('/', methods=['GET', 'POST'])
         def test_page():
             error = {}

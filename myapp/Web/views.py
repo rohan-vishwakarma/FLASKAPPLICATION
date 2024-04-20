@@ -28,6 +28,8 @@ def class_route(self, rule, endpoint, **options):
     return decorator
 
 import base64
+import urllib3
+import requests
 
 @Webappbp.route('/images/list', methods=['GET'])
 def list_of_images():
@@ -35,25 +37,17 @@ def list_of_images():
     dictionary_response = {}
     images = Images.query.all()
 
-    
-
     search_query = request.args.get('search')
     if search_query:
-        header = {'Authorization' : '08jrFeIXXDeJpBdYAgF8GcDuKm7sDTLc7rScWCWI56ArcoeR4Zl37xdw'}
-        res = requests.get(f'https://api.pexels.com/v1/search?query={search_query}', headers=header)
-        if res.status_code == 200:
-            dictionary_response = dict(res.json())
-        else:
-            dictionary_response = res.status_code
-            print(f"Unsupported : status code {res.status_code}")
+        try:
+            header = {'Authorization': '08jrFeIXXDeJpBdYAgF8GcDuKm7sDTLc7rScWCWI56ArcoeR4Zl37xdw'}
+            res = requests.get(f'https://api.pexels.com/v1/search?query={search_query}', headers=header, verify=False)
+            if res.status_code == 200:
+                dictionary_response = res.json()
+        except Exception as e:
+            print(e)
 
-            for i in dictionary_response["photos"]:
-                print(i["src"]["tiny"])
-        print(dictionary_response)
-
-    return render_template('WEBAPP/imagelist.html', images=images , profile=profile(), dictionary_response = dictionary_response  )
-
-
+    return render_template('WEBAPP/imagelist.html', images=images, profile=profile(), dictionary_response=dictionary_response)
 
 
 
@@ -71,8 +65,6 @@ class ImageFormEdit(View):
         
         if request.method == "GET":
             return  render_template("WEBAPP/deleteimage.html", data = image)
-
-
 
 @class_route(Webappbp, "/images", "images")
 class ImageForm(View):

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JetClientState">
+    <option name="folders">
+      <list>
+        <folderState>
+          <option name="id" value="7bdde431-6576-46d2-88c5-b900343f5e3f" />
+          <option name="name" value="New Collection" />
+          <option name="requests">
+            <list>
+              <requestState>
+                <option name="body">
+                  <bodyState>
+                    <option name="type" value="FORM_URL_ENCODED" />
+                    <option name="urlEncoded">
+                      <list>
+                        <urlEncodedParameterState>
+                          <option name="key" value="name" />
+                          <option name="value" value="ROHAN" />
+                        </urlEncodedParameterState>
+                        <urlEncodedParameterState>
+                          <option name="key" value="email" />
+                          <option name="value" value="rohanvishwakarma685@gmail.com" />
+                        </urlEncodedParameterState>
+                      </list>
+                    </option>
+                  </bodyState>
+                </option>
+                <option name="headers">
+                  <list>
+                    <headerState>
+                      <option name="key" value="Authorization" />
+                      <option name="value" value="08jrFeIXXDeJpBdYAgF8GcDuKm7sDTLc7rScWCWI56ArcoeR4Zl37xdw" />
+                    </headerState>
+                    <headerState>
+                      <option name="key" value="Content-Type" />
+                      <option name="value" value="application/x-www-form-urlencoded" />
+                    </headerState>
+                  </list>
+                </option>
+                <option name="id" value="8b520370-7ca0-4389-9d7e-ae2e03bf8344" />
+                <option name="method" value="POST" />
+                <option name="name" value="New Request" />
+                <option name="url" value="http://127.0.0.1:5000/Api/AddEmail" />
+              </requestState>
+            </list>
+          </option>
+          <option name="sortWeight" value="1000000" />
+          <option name="syncProperties">
+            <synchronizationPropertiesState>
+              <option name="folderPath" value="C:\Users\ROHAN\PycharmProjects\FLASKAPPLICATION\.jetclient" />
+            </synchronizationPropertiesState>
+          </option>
+        </folderState>
+      </list>
+    </option>
+    <option name="id" value="492c69bc-880a-4037-a4a9-43bfff90d413" />
+  </component>
+</project>

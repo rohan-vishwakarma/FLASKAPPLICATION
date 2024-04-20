@@ -48,4 +48,10 @@ class Images(db.Model):
     def __repr__(self):
         return '<User %r>' % self.imagename
 
-
+class Emails(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    email = db.Column(db.String(100))
+    created_at = db.Column(DateTime(timezone=True), server_default=func.now())
+    def __repr__(self):
+        return '<User %r>' % self.name
